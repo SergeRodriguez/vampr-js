@@ -41,7 +41,9 @@ class Vampire {
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    
+    if(this.name === name){
+      return this.name
+    }
   }
 
   // Returns the total number of vampires that exist

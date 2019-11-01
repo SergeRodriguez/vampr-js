@@ -41,20 +41,43 @@ class Vampire {
 
   // Returns the vampire object with that name, or null if no vampire exists with that name
   vampireWithName(name) {
-    if(this.name === name){
-      return this.name
+    if (this.name === name) {
+      return this
     }
+
+    for (const offspringNode of this.offspring) {
+      if (offspringNode.vampireWithName(name)) {
+        return offspringNode.vampireWithName(name)
+      }
+    }
+    return null
   }
 
-  // Returns the total number of vampires that exist
+  // Returns the total number of vampires that exist as decendents
   get totalDescendents() {
-    
+    let count = 0
+
+    for (const offspringNode of this.offspring) {
+      count = count + 1 + offspringNode.totalDescendents
+    }
+    return count
   }
 
   // Returns an array of all the vampires that were converted after 1980
   get allMillennialVampires() {
-    
+    let youngVampires = []; // 1
+
+    if (this.yearConverted > 1980) {
+      youngVampires.push(this); // 2
+    }
+
+    for (const offspringNode of this.offspring) {
+      youngVampires = youngVampires.concat(offspringNode.allMillennialVampires);
+    }
+
+    return youngVampires;
   }
+  
 
   /** Stretch **/
 
@@ -89,7 +112,7 @@ class Vampire {
     //  if (vampire !== thisVampire && thisVampire.creator !== null ){
     //   return vampire.closestCommonAncestor(thisVampire.creator)
     //  }
-  
+
   }
 }
 module.exports = Vampire;
